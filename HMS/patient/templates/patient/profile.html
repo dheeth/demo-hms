@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load extras %}
+{% block title %} Demo Hospital - Chandigarh {% endblock title %}
+{% block content %}
+{% if user.is_authenticated and request.user|has_group:'Patients' %}
+{% include 'patient/navbar.html' with profileactive='active' %}
+<div class="container my-3">
+<h1>Hello, {{request.user}}</h1>
+<form action="" method="post" enctype="multipart/form-data">
+{% csrf_token %}
+{{form.as_p}}
+<input class="btn btn-primary" type="submit" value="Submit">
+</form>
+</div>
+{% elif user.is_authenticated and request.user|has_group:'Reception' %}
+{% include 'department/renavbar.html' with dashboardactive='active' %}
+<div class="container my-3">
+<h1>Hello, {{request.user}}</h1>
+<form action="" method="post" enctype="multipart/form-data">
+{% csrf_token %}
+{{form.as_p}}
+<input class="btn btn-primary" type="submit" value="Submit">
+</form>
+</div>
+{% else %}
+<h3>You are not auhtorized to view this page</h3>
+{% endif %}
+{% endblock content %}

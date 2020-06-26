@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load extras %}
+{% block title %} Demo Hospital - Chandigarh {% endblock title %}
+{% block content %}
+{% if user.is_authenticated and request.user|has_group:'Doctors' %}
+{% include 'doctor/navbar.html' with appointactive='active' %}
+<div class="container my-3">
+<table class="table table-striped table-bordered">
+  <thead>
+    <tr>
+      <th scope="col">Date</th>
+      <th scope="col">Time</th>
+      <th scope="col">Patient info</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for appoint in appointment %}
+    <tr>
+      <th scope="row">{{appoint.date}}</th>
+      <td>{{appoint.time}}</td>
+      <td>{{appoint.patient_name}}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+{% else %}
+<h3>You are not auhtorized to view this page</h3>
+{% endif %}
+{% endblock content %}

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load extras %}
+{% block title %} Demo Hospital - Chandigarh {% endblock title %}
+{% block content %}
+{% if user.is_authenticated and request.user|has_group:'Doctors' %}
+{% include 'doctor/navbar.html' with historyactive='active' %}
+<div class="container my-3">
+<div class="col-md-3">
+<a class="btn btn-outline-primary" href="/doctor/create-prescription">Create Prescription</a><br><br>
+</div>
+{% for pres in prescribe %}
+    <div class="card">
+  <div class="card-header">
+    {{pres.date}}
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">Symptoms: {{pres.diseases}}</h5>
+    <p class="card-text">Prescription: {{pres.prescription}}</p>
+    <p class="card-text">Patient Name: {{pres.patient_name}}</p>
+  </div>
+</div><br>
+{% endfor %}
+    </div>
+{% else %}
+<h3>You are not auhtorized to view this page</h3>
+{% endif %}
+{% endblock content %}

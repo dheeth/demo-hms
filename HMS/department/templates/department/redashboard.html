@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% load extras %}
+{% block title %} Demo Hospital - Chandigarh {% endblock title %}
+{% block content %}
+{% if user.is_authenticated and request.user|has_group:'Reception' %}
+{% include 'department/renavbar.html' with dashboardactive='active' %}
+<div class="row my-3">
+    <div class="col">
+        <div class="col-md">
+            <div class="card text-center text-white mb-3" id="total-appointments">
+                <div class="card-header">
+                    <h5 class="card-title">Total Appointments</h5>
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title">{{total_appointments}}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="col-md">
+            <div class="card text-center text-white mb-3" id="appointments-done">
+                <div class="card-header">
+                    <h5 class="card-title">Appointments Done</h5>
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title">{{appointments_done}}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="col-md">
+            <div class="card text-center text-white mb-3" id="upcoming-appointments">
+                <div class="card-header">
+                    <h5 class="card-title">Upcoming Appointments</h5>
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title">{{appointments_pending}}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row m-1">
+    <div class="col-md-5">
+        <h5>Appointments:</h5>
+        <hr>
+        <div class="card card-body">
+            <a href="/department/create-appointment" class="btn btn-primary btn-sm btn-block">Create Appointment</a>
+            <table class="table table-sm">
+                <tr>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Doctor</th>
+                    <th>Patient</th>
+                    <th>Status</th>
+                </tr>
+                {% for appointment in appointments %}
+                <tr>
+                    <td>{{appointment.date}}</td>
+                    <td>{{appointment.time}}</td>
+                    <td>{{appointment.doctor_name}}</td>
+                    <td>{{appointment.patient_name}}</td>
+                    <td>{{appointment.status}}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+    <div class="col-md-7">
+        <h5>Last 5 Patients:</h5>
+        <hr>
+        <div class="card card-body">
+            <a href="/department/create-patient" class="btn btn-primary btn-sm btn-block">Create Patient</a>
+            <table class="table table-sm">
+                <tr>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Gender</th>
+                    <th>Age</th>
+                    <th>Update</th>
+                    <th>Remove</th>
+                </tr>
+                {% for patient in patients %}
+                <tr>
+                    <td>{{patient.first_name}}</td>
+                    <td>{{patient.phone}}</td>
+                    <td>{{patient.email}}</td>
+                    <td>{{patient.gender}}</td>
+                    <td>{{patient.age}}</td>
+                    <td><a class="btn btn-sm btn-info" href="/department/update-patient/{{patient.id}}">Update</a></td>
+                    <td><a class="btn btn-sm btn-danger" href="/department/delete-patient/{{patient.id}}">Remove</a></td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+{% else %}
+<h3>You are not auhtorized to view this page</h3>
+{% endif %}
+{% endblock content %}

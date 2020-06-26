@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load extras %}
+{% block title %} Demo Hospital - Chandigarh {% endblock title %}
+{% block content %}
+{% if user.is_authenticated and request.user|has_group:'Patients' %}
+{% include 'patient/navbar.html' with historyactive='active' %}
+<div class="container my-3">
+{% for pres in prescribe %}
+    <div class="card">
+  <div class="card-header">
+    {{pres.date}}
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">Symptoms: {{pres.diseases}}</h5>
+    <p class="card-text">Prescription: {{pres.prescription}}</p>
+    <a href="#" class="btn btn-primary">Learn More</a>
+  </div>
+</div><br>
+{% endfor %}
+    </div>
+{% else %}
+<h3>You are not auhtorized to view this page</h3>
+{% endif %}
+{% endblock content %}

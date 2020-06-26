@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load extras %}
+{% block title %} Demo Hospital - Chandigarh {% endblock title %}
+{% block content %}
+{% if user.is_authenticated and request.user|has_group:'HR' %}
+{% include 'department/hrnavbar.html' with dashboardactive='active' %}
+<div class="row my-3">
+    <div class="col">
+        <div class="col-md">
+            <div class="card text-center text-white mb-3" id="total-appointments">
+                <div class="card-header">
+                    <h5 class="card-title">Total Doctors</h5>
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title">{{total_doctors}}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="col-md">
+            <div class="card text-center text-white mb-3" id="appointments-done">
+                <div class="card-header">
+                    <h5 class="card-title">Total Patients</h5>
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title">{{total_patients}}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="col-md">
+            <div class="card text-center text-white mb-3" id="upcoming-appointments">
+                <div class="card-header">
+                    <h5 class="card-title">On Duty Doctors</h5>
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title">{{on_duty_doctors}}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row m-1">
+    <div class="col-md-12">
+        <h5>Doctors:</h5>
+        <hr>
+        <div class="card card-body">
+            <a href="#" class="btn btn-primary btn-sm btn-block">Doctors</a>
+            <table class="table table-sm">
+                <tr>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Gender</th>
+                    <th>Age</th>
+                    <th>Status</th>
+                    <th>Department</th>
+                    <th>Attendence</th>
+                    <th>Salary</th>
+                    <th>Update</th>
+                    <th>Remove</th>
+                </tr>
+                {% for doctor in doctors %}
+                <tr>
+                    <td>{{doctor.first_name}}</td>
+                    <td>{{doctor.phone}}</td>
+                    <td>{{doctor.email}}</td>
+                    <td>{{doctor.gender}}</td>
+                    <td>{{doctor.age}}</td>
+                    <td>{{doctor.status}}</td>
+                    <td>{{doctor.department}}</td>
+                    <td>{{doctor.attendence}}</td>
+                    <td>{{doctor.salary}}</td>
+                    <td><a class="btn btn-sm btn-info" href="/department/update-doctor/{{doctor.id}}">Update</a></td>
+                    <td><a class="btn btn-sm btn-danger" href="/department/delete-doctor/{{doctor.id}}">Remove</a></td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+{% else %}
+<h3>You are not auhtorized to view this page</h3>
+{% endif %}
+{% endblock content %}

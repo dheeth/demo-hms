@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load extras %}
+{% block title %} Demo Hospital - Chandigarh {% endblock title %}
+{% block content %}
+{% if user.is_authenticated and request.user|has_group:'HR' %}
+{% include 'department/hrnavbar.html' with accountactive='active' %}
+<div class="row my-3 mx-1">
+    <div class="col-md-5">
+        <div class="card card-body">
+            <a href="#" class="btn btn-primary btn-sm btn-block">Individual Outstandings</a>
+            <table class="table table-sm">
+                <tr>
+                    <th>Patient</th>
+                    <th>Outstanding</th>
+                    <th>Paid</th>
+                    <th>Reminder</th>
+                </tr>
+                {% for outstanding in outstandings %}
+                <tr>
+                    <td>{{outstanding.patient_name__first_name}}</td>
+                    <td>{{outstanding.unpaid}}</td>
+                    <td>{{outstanding.paid}}</td>
+                    <td><a href="#" class="btn btn-sm btn-danger">Send Reminder</a></td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+    <div class="col-md-7">
+        <div class="card card-body">
+            <a href="#" class="btn btn-primary btn-sm btn-block">Consultation's Outstandings</a>
+            <table class="table table-sm">
+                <tr>
+                    <th>Date</th>
+                    <th>Patient Name</th>
+                    <th>Paid</th>
+                    <th>Outstanding</th>
+                    <th>Total</th>
+                    <th>Invoice</th>
+                </tr>
+                {% for total in total_outstandings %}
+                <tr>
+                    <td>{{total.date}}</td>
+                    <td>{{total.patient_name}}</td>
+                    <td>{{total.paid}}</td>
+                    <td>{{total.outstanding}}</td>
+                    <td>{{total.Total}}</td>
+                    <td><a href="#">Open Invoice</a></td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+{% else %}
+<h3>You are not auhtorized to view this page</h3>
+{% endif %}
+{% endblock content %}

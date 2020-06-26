@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load extras %}
+{% block title %} Demo Hospital - Chandigarh {% endblock title %}
+{% block content %}
+{% if user.is_authenticated and request.user|has_group:'Reception' %}
+<div class="container my-3">
+<form action="/department/create-appointment" method="post">
+{% csrf_token %}
+{{form.as_p}}
+<input class="btn btn-primary" type="submit" value="Submit">
+</form>
+</div>
+{% else %}
+<h3>You are not auhtorized to view this page</h3>
+{% endif %}
+{% endblock content %}

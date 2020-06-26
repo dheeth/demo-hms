@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load extras %}
+{% block title %} Demo Hospital - Chandigarh {% endblock title %}
+{% block content %}
+{% if user.is_authenticated and request.user|has_group:'Doctors' %}
+{% include 'doctor/navbar.html' with homeactive='active' %}
+<div class="container my-3">
+<h1>Demo Hospital - Chandigarh</h1>
+</div>
+{% else %}
+<h3>You are not auhtorized to view this page</h3>
+{% endif %}
+{% endblock content %}

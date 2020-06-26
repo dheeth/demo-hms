@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load extras %}
+{% block title %} Demo Hospital - Chandigarh {% endblock title %}
+{% block content %}
+{% if user.is_authenticated and request.user|has_group:'Reception' %}
+{% include 'department/renavbar.html' with dashboardactive='active' %}
+<div class="row">
+<div class="col-md-6">
+<div class="card card-body">
+<p>Are you sure you want to delete "{{item}}"?</p>
+<form action="" method="post">
+{% csrf_token %}
+<a class="btn btn-warning" href="/department/reception-dashboard">Cancel</a>
+<input class="btn btn-danger" type="submit" value="Confirm">
+</form>
+</div>
+</div>
+</div>
+{% elif user.is_authenticated and request.user|has_group:'HR' %}
+{% include 'department/hrnavbar.html' with dashboardactive='active' %}
+<div class="row">
+<div class="col-md-6">
+<div class="card card-body">
+<p>Are you sure you want to delete "{{item}}"?</p>
+<form action="" method="post">
+{% csrf_token %}
+<a class="btn btn-warning" href="/department/hrdashboard">Cancel</a>
+<input class="btn btn-danger" type="submit" value="Confirm">
+</form>
+</div>
+</div>
+</div>
+{% else %}
+<h3>You are not auhtorized to view this page</h3>
+{% endif %}
+{% endblock content %}

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %} Login to Demo Hospital {% endblock title %}
+{% block content %}
+{% include 'management/navbar.html' with loginactive='active' %}
+<div class="container my-3">
+<form method="post" action="/login">
+{% csrf_token %}
+  <div class="form-group">
+    <label for="loginusername">Username</label>
+    <input type="text" class="form-control" id="loginusername" name="loginusername">
+  </div>
+  <div class="form-group">
+    <label for="loginpass">Password</label>
+    <input type="password" class="form-control" id="loginpass" name="loginpass">
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+</div>
+{% endblock content %}
