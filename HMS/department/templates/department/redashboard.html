@@ -56,6 +56,7 @@
                     <th>Doctor</th>
                     <th>Patient</th>
                     <th>Status</th>
+                    <th>Update</th>
                 </tr>
                 {% for appointment in appointments %}
                 <tr>
@@ -64,6 +65,7 @@
                     <td>{{appointment.doctor_name}}</td>
                     <td>{{appointment.patient_name}}</td>
                     <td>{{appointment.status}}</td>
+                    <td><a class="btn btn-sm btn-info" href="/department/update-appointment/{{appointment.id}}">Update</a></td>
                 </tr>
                 {% endfor %}
             </table>

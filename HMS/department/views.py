@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from .models import Appointment, Outstanding
+from .forms import AppointmentForm
 from django.contrib.auth import logout
-from django.db.models import Sum, Count
+from django.db.models import Sum
 from django.contrib import messages
 from patient.models import Patient
 from doctor.models import Doctor
@@ -46,6 +47,19 @@ def createAppointment(request):
             return redirect('/department/reception-dashboard')
     context = {'form': form}
     return render(request, 'department/create-appointment.html', context)
+
+def updateAppointment(request, pk):
+    appointment = Appointment.objects.get(id=pk)
+    form = AppointmentForm(instance=appointment)
+    if request.method == 'POST':
+        form = AppointmentForm(request.POST, instance=appointment)
+        if form.is_valid():
+            form.save()
+            return redirect('/department/reception-dashboard')
+    context = {'form': form}
+    return render(request, 'department/update-appointment.html', context)
+
+
 
 def handleLogout(request):
     logout(request)
